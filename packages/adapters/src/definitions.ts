@@ -48,30 +48,7 @@ export const adapterDefinitions: AdapterDefinition[] = [
     fixtureFile: "binance-square.json",
     active: true
   },
-  {
-    name: "okx-onchain-signal",
-    family: "onchain_flow",
-    installProfile: "active-only",
-    cliCommand: "onchainos",
-    fixtureFile: "okx-onchain-signal.json",
-    active: true
-  },
-  {
-    name: "okx-onchain-trenches",
-    family: "onchain_flow",
-    installProfile: "active-only",
-    cliCommand: "onchainos",
-    fixtureFile: "okx-onchain-trenches.json",
-    active: true
-  },
-  {
-    name: "okx-onchain-token",
-    family: "risk_annotation",
-    installProfile: "active-only",
-    cliCommand: "onchainos",
-    fixtureFile: "okx-onchain-token.json",
-    active: true
-  },
+
   {
     name: "market-structure-feed",
     family: "market_structure",
@@ -84,14 +61,6 @@ export const adapterDefinitions: AdapterDefinition[] = [
     family: "social_sentiment",
     installProfile: "full-profile",
     cliCommand: "binance-cli",
-    fixtureFile: "dormant-empty.json",
-    active: false
-  },
-  {
-    name: "okx-agentic-wallet",
-    family: "risk_annotation",
-    installProfile: "debug-profile",
-    cliCommand: "onchainos",
     fixtureFile: "dormant-empty.json",
     active: false
   }

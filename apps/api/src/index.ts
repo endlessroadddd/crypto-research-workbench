@@ -3,8 +3,8 @@ import { buildApp } from "./app";
 const start = async (): Promise<void> => {
   const app = await buildApp();
   await app.listen({
-    host: "127.0.0.1",
-    port: 3000
+    host: "0.0.0.0",
+    port: Number(process.env.PORT ?? 3000)
   });
 };
 
