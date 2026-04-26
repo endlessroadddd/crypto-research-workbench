@@ -8,6 +8,9 @@ dist
 .DS_Store
 coverage
 *.log
+packages/*/src/**/*.d.ts
+packages/*/src/**/*.js
+packages/*/src/**/*.js.map
 data/*.sqlite
 data/*.sqlite-shm
 data/*.sqlite-wal
