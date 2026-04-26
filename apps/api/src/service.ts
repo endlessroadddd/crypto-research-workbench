@@ -1,12 +1,12 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 import { evaluateCandidate, type Candidate, type SourceCoverageItem } from "@research/core";
 import { loadAdapterRuntimes } from "@research/adapters";
 import { buildCalibrationReport, buildManualReviewChecklist } from "@research/review";
 import {
   appendStructureEntries,
   createStorageDatabase,
+  snapshotsDir,
   type StorageDatabase,
   writeWindowSnapshot
 } from "@research/storage";
@@ -19,10 +19,8 @@ export interface WorkspaceSnapshot {
   reviewReport: ReturnType<typeof buildCalibrationReport>;
 }
 
-const currentDir = fileURLToPath(new URL(".", import.meta.url));
-const repoRoot = resolve(currentDir, "../../../");
-const snapshotFile = resolve(repoRoot, "fixtures", "snapshots", "current-candidates.json");
-const calibrationFile = resolve(repoRoot, "fixtures", "snapshots", "review-calibration-report.json");
+const snapshotFile = resolve(snapshotsDir, "current-candidates.json");
+const calibrationFile = resolve(snapshotsDir, "review-calibration-report.json");
 
 const groupEvidenceBySymbol = (evidence: ReturnType<typeof loadAdapterRuntimes>[number]["evidence"]) =>
   evidence.reduce<Record<string, typeof evidence>>((acc, item) => {
