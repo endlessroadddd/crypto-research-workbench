@@ -1,0 +1,11 @@
+{
+  "totalReviews": 0,
+  "thesisAcceptanceRate": 0,
+  "timingAcceptanceRate": 0,
+  "actionBreakdown": {
+    "dismiss": 0,
+    "watch": 0,
+    "long-bias": 0,
+    "short-bias": 0
+  }
+}

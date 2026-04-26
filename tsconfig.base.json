@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@research/core": ["packages/core/src/index.ts"],
+      "@research/adapters": ["packages/adapters/src/index.ts"],
+      "@research/storage": ["packages/storage/src/index.ts"],
+      "@research/replay": ["packages/replay/src/index.ts"],
+      "@research/review": ["packages/review/src/index.ts"],
+      "@research/assistant": ["packages/assistant/src/index.ts"]
+    }
+  }
+}

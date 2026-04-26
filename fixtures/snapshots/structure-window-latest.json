@@ -1,0 +1,118 @@
+[
+  {
+    "symbol": "ORDI",
+    "timestamp": "2026-04-23T14:05:58.348Z",
+    "payload": {
+      "id": "market-structure-feed:ORDI:0",
+      "symbol": "ORDI",
+      "source": "market-structure-feed",
+      "subsource": "breakout_acceptance",
+      "sourceFamily": "market_structure",
+      "category": "confirmation",
+      "direction": "bullish",
+      "timestamp": "2026-04-23T14:05:58.348Z",
+      "ttlMs": 180000,
+      "degradingStartRatio": 0.8,
+      "freshnessState": "fresh",
+      "freshnessWeight": 1,
+      "strength": 0.92,
+      "confidence": 0.88,
+      "sameFamilyDedupeKey": "breakout_acceptance",
+      "crossFamilyThemeKey": "ai-breakout",
+      "isPrimary": true,
+      "rawRef": "/Users/Zhuanz/Desktop/工作/crypto/fixtures/payloads/market-structure.json",
+      "details": {
+        "oiChange": 0.21,
+        "funding": 0.004,
+        "priceAction": "acceptance_above_level"
+      }
+    }
+  },
+  {
+    "symbol": "BAN",
+    "timestamp": "2026-04-23T14:06:28.348Z",
+    "payload": {
+      "id": "market-structure-feed:BAN:1",
+      "symbol": "BAN",
+      "source": "market-structure-feed",
+      "subsource": "blowoff_rejection",
+      "sourceFamily": "market_structure",
+      "category": "confirmation",
+      "direction": "bearish",
+      "timestamp": "2026-04-23T14:06:28.348Z",
+      "ttlMs": 180000,
+      "degradingStartRatio": 0.8,
+      "freshnessState": "fresh",
+      "freshnessWeight": 1,
+      "strength": 0.91,
+      "confidence": 0.86,
+      "sameFamilyDedupeKey": "blowoff_rejection",
+      "crossFamilyThemeKey": "meme-euphoria",
+      "isPrimary": true,
+      "rawRef": "/Users/Zhuanz/Desktop/工作/crypto/fixtures/payloads/market-structure.json",
+      "details": {
+        "oiChange": 0.31,
+        "funding": 0.018,
+        "priceAction": "failed_reclaim"
+      }
+    }
+  },
+  {
+    "symbol": "HYPE",
+    "timestamp": "2026-04-23T14:05:28.348Z",
+    "payload": {
+      "id": "market-structure-feed:HYPE:2",
+      "symbol": "HYPE",
+      "source": "market-structure-feed",
+      "subsource": "range_distribution_rejection",
+      "sourceFamily": "market_structure",
+      "category": "confirmation",
+      "direction": "bearish",
+      "timestamp": "2026-04-23T14:05:28.348Z",
+      "ttlMs": 180000,
+      "degradingStartRatio": 0.8,
+      "freshnessState": "fresh",
+      "freshnessWeight": 1,
+      "strength": 0.77,
+      "confidence": 0.81,
+      "sameFamilyDedupeKey": "range_distribution_rejection",
+      "crossFamilyThemeKey": "meme-euphoria",
+      "isPrimary": true,
+      "rawRef": "/Users/Zhuanz/Desktop/工作/crypto/fixtures/payloads/market-structure.json",
+      "details": {
+        "oiChange": 0.12,
+        "funding": 0.009,
+        "priceAction": "distribution_in_range"
+      }
+    }
+  },
+  {
+    "symbol": "SOON",
+    "timestamp": "2026-04-23T13:50:58.348Z",
+    "payload": {
+      "id": "market-structure-feed:SOON:3",
+      "symbol": "SOON",
+      "source": "market-structure-feed",
+      "subsource": "structure_snapshot_old",
+      "sourceFamily": "market_structure",
+      "category": "confirmation",
+      "direction": "bullish",
+      "timestamp": "2026-04-23T13:50:58.348Z",
+      "ttlMs": 180000,
+      "degradingStartRatio": 0.8,
+      "freshnessState": "fresh",
+      "freshnessWeight": 1,
+      "strength": 0.88,
+      "confidence": 0.83,
+      "sameFamilyDedupeKey": "structure_snapshot_old",
+      "crossFamilyThemeKey": "post-listing-hype",
+      "isPrimary": true,
+      "rawRef": "/Users/Zhuanz/Desktop/工作/crypto/fixtures/payloads/market-structure.json",
+      "details": {
+        "oiChange": 0.19,
+        "funding": 0.011,
+        "priceAction": "stale_breakout"
+      }
+    }
+  }
+]

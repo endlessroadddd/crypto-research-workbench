@@ -1,0 +1,26 @@
+[
+  {
+    "symbol": "BAN",
+    "subsource": "thin_liquidity",
+    "category": "risk",
+    "direction": "risk",
+    "timestamp": "2026-04-17T11:40:00.000Z",
+    "ttlMs": 21600000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.34,
+    "confidence": 0.74,
+    "sameFamilyDedupeKey": "thin_liquidity"
+  },
+  {
+    "symbol": "HYPE",
+    "subsource": "holder_concentration",
+    "category": "risk",
+    "direction": "risk",
+    "timestamp": "2026-04-17T11:35:00.000Z",
+    "ttlMs": 21600000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.52,
+    "confidence": 0.77,
+    "sameFamilyDedupeKey": "holder_concentration"
+  }
+]

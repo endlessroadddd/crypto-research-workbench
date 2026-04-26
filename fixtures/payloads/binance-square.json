@@ -1,0 +1,55 @@
+[
+  {
+    "symbol": "ORDI",
+    "subsource": "mention_density_up",
+    "category": "discovery",
+    "direction": "bullish",
+    "timestamp": "2026-04-17T12:02:00.000Z",
+    "ttlMs": 1800000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.69,
+    "confidence": 0.83,
+    "sameFamilyDedupeKey": "mention_density_up",
+    "crossFamilyThemeKey": "ai-breakout"
+  },
+  {
+    "symbol": "BAN",
+    "subsource": "extreme_heat",
+    "category": "discovery",
+    "direction": "bearish",
+    "timestamp": "2026-04-17T12:04:00.000Z",
+    "ttlMs": 1800000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.85,
+    "confidence": 0.84,
+    "sameFamilyDedupeKey": "extreme_heat",
+    "crossFamilyThemeKey": "meme-euphoria"
+  },
+  {
+    "symbol": "ASTER",
+    "subsource": "narrative_cluster",
+    "category": "discovery",
+    "direction": "bullish",
+    "timestamp": "2026-04-17T12:01:00.000Z",
+    "ttlMs": 1800000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.63,
+    "confidence": 0.78,
+    "sameFamilyDedupeKey": "narrative_cluster",
+    "crossFamilyThemeKey": "ai-breakout"
+  },
+  {
+    "symbol": "SOON",
+    "subsource": "late_hot_discussion",
+    "category": "discovery",
+    "direction": "bullish",
+    "timestamp": "2026-04-17T11:20:00.000Z",
+    "ttlMs": 1800000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.88,
+    "confidence": 0.81,
+    "sameFamilyDedupeKey": "late_hot_discussion",
+    "crossFamilyThemeKey": "post-listing-hype"
+  }
+]
+

@@ -1,0 +1,29 @@
+[
+  {
+    "symbol": "BAN",
+    "subsource": "meme_rush_extreme",
+    "category": "discovery",
+    "direction": "bearish",
+    "timestamp": "2026-04-17T12:05:00.000Z",
+    "ttlMs": 900000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.82,
+    "confidence": 0.8,
+    "sameFamilyDedupeKey": "meme_rush_extreme",
+    "crossFamilyThemeKey": "meme-euphoria"
+  },
+  {
+    "symbol": "HYPE",
+    "subsource": "meme_rush_hot",
+    "category": "discovery",
+    "direction": "bullish",
+    "timestamp": "2026-04-17T12:03:00.000Z",
+    "ttlMs": 900000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.64,
+    "confidence": 0.74,
+    "sameFamilyDedupeKey": "meme_rush_hot",
+    "crossFamilyThemeKey": "meme-euphoria"
+  }
+]
+

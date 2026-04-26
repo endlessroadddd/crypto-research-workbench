@@ -1,0 +1,27 @@
+{
+  "name": "@research/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "recompute": "tsx src/recompute.ts"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.1.0",
+    "@research/adapters": "workspace:*",
+    "@research/assistant": "workspace:*",
+    "@research/core": "workspace:*",
+    "@research/replay": "workspace:*",
+    "@research/review": "workspace:*",
+    "@research/storage": "workspace:*",
+    "fastify": "^5.3.3",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "vitest": "^3.1.2"
+  }
+}

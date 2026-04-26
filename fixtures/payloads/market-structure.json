@@ -1,0 +1,74 @@
+[
+  {
+    "symbol": "ORDI",
+    "subsource": "breakout_acceptance",
+    "category": "confirmation",
+    "direction": "bullish",
+    "timestamp": "2026-04-17T12:05:00.000Z",
+    "ttlMs": 180000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.92,
+    "confidence": 0.88,
+    "sameFamilyDedupeKey": "breakout_acceptance",
+    "crossFamilyThemeKey": "ai-breakout",
+    "details": {
+      "oiChange": 0.21,
+      "funding": 0.004,
+      "priceAction": "acceptance_above_level"
+    }
+  },
+  {
+    "symbol": "BAN",
+    "subsource": "blowoff_rejection",
+    "category": "confirmation",
+    "direction": "bearish",
+    "timestamp": "2026-04-17T12:05:30.000Z",
+    "ttlMs": 180000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.91,
+    "confidence": 0.86,
+    "sameFamilyDedupeKey": "blowoff_rejection",
+    "crossFamilyThemeKey": "meme-euphoria",
+    "details": {
+      "oiChange": 0.31,
+      "funding": 0.018,
+      "priceAction": "failed_reclaim"
+    }
+  },
+  {
+    "symbol": "HYPE",
+    "subsource": "range_distribution_rejection",
+    "category": "confirmation",
+    "direction": "bearish",
+    "timestamp": "2026-04-17T12:04:30.000Z",
+    "ttlMs": 180000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.77,
+    "confidence": 0.81,
+    "sameFamilyDedupeKey": "range_distribution_rejection",
+    "crossFamilyThemeKey": "meme-euphoria",
+    "details": {
+      "oiChange": 0.12,
+      "funding": 0.009,
+      "priceAction": "distribution_in_range"
+    }
+  },
+  {
+    "symbol": "SOON",
+    "subsource": "structure_snapshot_old",
+    "category": "confirmation",
+    "direction": "bullish",
+    "timestamp": "2026-04-17T11:50:00.000Z",
+    "ttlMs": 180000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.88,
+    "confidence": 0.83,
+    "sameFamilyDedupeKey": "structure_snapshot_old",
+    "crossFamilyThemeKey": "post-listing-hype",
+    "details": {
+      "oiChange": 0.19,
+      "funding": 0.011,
+      "priceAction": "stale_breakout"
+    }
+  }
+]

@@ -1,0 +1,15 @@
+node_modules
+.venv
+.tmp
+.pytest_cache
+__pycache__
+dist
+.turbo
+.DS_Store
+coverage
+*.log
+data/*.sqlite
+data/*.sqlite-shm
+data/*.sqlite-wal
+logs/*.jsonl
+tmp

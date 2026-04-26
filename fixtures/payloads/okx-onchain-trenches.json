@@ -1,0 +1,27 @@
+[
+  {
+    "symbol": "ASTER",
+    "subsource": "new_launch_attention",
+    "category": "discovery",
+    "direction": "bullish",
+    "timestamp": "2026-04-17T12:02:30.000Z",
+    "ttlMs": 2700000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.7,
+    "confidence": 0.73,
+    "sameFamilyDedupeKey": "new_launch_attention",
+    "crossFamilyThemeKey": "ai-breakout"
+  },
+  {
+    "symbol": "BAN",
+    "subsource": "bundle_risk_context",
+    "category": "risk",
+    "direction": "risk",
+    "timestamp": "2026-04-17T11:58:00.000Z",
+    "ttlMs": 2700000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.29,
+    "confidence": 0.7,
+    "sameFamilyDedupeKey": "bundle_risk_context"
+  }
+]

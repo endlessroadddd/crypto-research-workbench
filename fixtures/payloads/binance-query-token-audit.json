@@ -1,0 +1,14 @@
+[
+  {
+    "symbol": "BAN",
+    "subsource": "audit_hot_contract",
+    "category": "risk",
+    "direction": "risk",
+    "timestamp": "2026-04-17T11:38:00.000Z",
+    "ttlMs": 21600000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.37,
+    "confidence": 0.76,
+    "sameFamilyDedupeKey": "audit_hot_contract"
+  }
+]

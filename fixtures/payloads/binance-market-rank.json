@@ -1,0 +1,42 @@
+[
+  {
+    "symbol": "ORDI",
+    "subsource": "top_rank_breakout",
+    "category": "discovery",
+    "direction": "bullish",
+    "timestamp": "2026-04-17T12:00:00.000Z",
+    "ttlMs": 900000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.74,
+    "confidence": 0.82,
+    "sameFamilyDedupeKey": "top_rank_breakout",
+    "crossFamilyThemeKey": "ai-breakout"
+  },
+  {
+    "symbol": "ASTER",
+    "subsource": "top_rank_momentum",
+    "category": "discovery",
+    "direction": "bullish",
+    "timestamp": "2026-04-17T12:02:00.000Z",
+    "ttlMs": 900000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.72,
+    "confidence": 0.76,
+    "sameFamilyDedupeKey": "top_rank_momentum",
+    "crossFamilyThemeKey": "ai-breakout"
+  },
+  {
+    "symbol": "BAN",
+    "subsource": "overcrowded_rank",
+    "category": "discovery",
+    "direction": "bearish",
+    "timestamp": "2026-04-17T12:04:00.000Z",
+    "ttlMs": 900000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.7,
+    "confidence": 0.75,
+    "sameFamilyDedupeKey": "overcrowded_rank",
+    "crossFamilyThemeKey": "meme-euphoria"
+  }
+]
+

@@ -1,0 +1,15 @@
+[
+  {
+    "symbol": "ASTER",
+    "subsource": "dev_history_risk",
+    "category": "risk",
+    "direction": "risk",
+    "timestamp": "2026-04-17T11:55:00.000Z",
+    "ttlMs": 21600000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.42,
+    "confidence": 0.74,
+    "sameFamilyDedupeKey": "dev_history_risk"
+  }
+]
+

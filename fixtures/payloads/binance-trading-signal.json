@@ -1,0 +1,29 @@
+[
+  {
+    "symbol": "ORDI",
+    "subsource": "smart_money_follow",
+    "category": "discovery",
+    "direction": "bullish",
+    "timestamp": "2026-04-17T12:03:00.000Z",
+    "ttlMs": 600000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.67,
+    "confidence": 0.78,
+    "sameFamilyDedupeKey": "smart_money_follow",
+    "crossFamilyThemeKey": "ai-breakout"
+  },
+  {
+    "symbol": "BAN",
+    "subsource": "crowding_alert",
+    "category": "discovery",
+    "direction": "bearish",
+    "timestamp": "2026-04-17T12:04:30.000Z",
+    "ttlMs": 600000,
+    "degradingStartRatio": 0.8,
+    "strength": 0.73,
+    "confidence": 0.79,
+    "sameFamilyDedupeKey": "crowding_alert",
+    "crossFamilyThemeKey": "meme-euphoria"
+  }
+]
+
