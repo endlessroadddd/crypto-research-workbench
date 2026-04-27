@@ -5,7 +5,7 @@
     "buildCommand": "pnpm --filter @research/api build"
   },
   "deploy": {
-    "startCommand": "cd apps/api && node dist/index.js",
+    "startCommand": "cd apps/api/dist/apps/api/src && node index.js",
     "numReplicas": 1,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
