@@ -5,10 +5,9 @@
 "buildCommand": "pnpm -r build && cd apps/api && node build.mjs"
   },
   "deploy": {
-    "startCommand": "cd apps/api/dist && node bundle.js",
+    "startCommand": "cd apps/api/dist && node bundle.cjs",
     "numReplicas": 1,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
 }
-

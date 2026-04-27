@@ -1,7 +1,6 @@
 import * as esbuild from 'esbuild';
 import { resolve } from 'path';
-import { fileURLToPath } from 'url';
-import { readFileSync } from 'fs';
+import { fileURLToPath, pathToFileURL } from 'url';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const workspaceRoot = resolve(__dirname, '../../');
@@ -17,24 +16,28 @@ const nodePaths = [
 ].join(':');
 
 const isProd = process.env.NODE_ENV === 'production';
+const bundleOutfile = resolve(__dirname, 'dist/bundle.cjs');
 
 await esbuild.build({
   entryPoints: [resolve(__dirname, 'src/index.ts')],
   bundle: true,
   platform: 'node',
-  format: 'esm',
-  outfile: resolve(__dirname, 'dist/bundle.js'),
+  format: 'cjs',
+  outfile: bundleOutfile,
   target: 'node22',
   sourcemap: isProd ? false : 'inline',
   minify: isProd,
+  define: {
+    'import.meta.url': JSON.stringify(pathToFileURL(bundleOutfile).href),
+  },
   loader: {
     '.ts': 'ts',
   },
   nodePaths: nodePaths.split(':'),
   external: [
-    'node:fs', 'node:path', 'node:url', 'node:module', 'node:process',
-    'fsevents', 'async_hooks',
+    'node:*',
+    'fsevents',
   ],
 });
 
-console.log('Bundle complete → dist/bundle.js');
+console.log('Bundle complete → dist/bundle.cjs');
