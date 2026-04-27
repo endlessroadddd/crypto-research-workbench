@@ -4,6 +4,7 @@ import { analyzeCandidateWithAssistant } from "@research/assistant";
 import { buildHistoricalSnapshotReplay, buildLiveEventReplay } from "@research/replay";
 import { parseManualReviewFeedback } from "@research/review";
 import { getBinanceFuturesMovers } from "./radar/movers.js";
+import { getBinanceFuturesOIAnomalies } from "./radar/oi-anomalies.js";
 import { createDb, loadCandidateDetail, recomputeWorkspace, type WorkspaceSnapshot } from "./service.js";
 
 interface Subscriber {
@@ -34,6 +35,8 @@ export const buildApp = async () => {
   app.get("/api/reports", async () => snapshot.reportSummary);
 
   app.get("/api/radar/movers", async () => getBinanceFuturesMovers());
+
+  app.get("/api/radar/oi-anomalies", async () => getBinanceFuturesOIAnomalies());
 
   app.get<{ Params: { symbol: string } }>("/api/candidates/:symbol", async (request, reply) => {
     const detail = loadCandidateDetail(db, request.params.symbol);

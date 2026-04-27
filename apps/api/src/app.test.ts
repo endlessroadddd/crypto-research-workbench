@@ -1,6 +1,7 @@
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { buildApp } from "./app.js";
 import { resetMoversCacheForTest } from "./radar/movers.js";
+import { resetOIAnomaliesCacheForTest } from "./radar/oi-anomalies.js";
 
 let app: Awaited<ReturnType<typeof buildApp>>;
 
@@ -14,6 +15,7 @@ afterAll(async () => {
 
 afterEach(() => {
   resetMoversCacheForTest();
+  resetOIAnomaliesCacheForTest();
   vi.unstubAllGlobals();
 });
 
@@ -64,6 +66,27 @@ describe("api app", () => {
     expect(payload.error.code).toBe("BINANCE_UPSTREAM_ERROR");
     expect(payload.gainers).toEqual([]);
     expect(payload.losers).toEqual([]);
+  });
+
+  it("returns degraded OI anomalies when Binance upstream fails", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => ({
+        ok: false,
+        status: 429,
+        json: async () => ({})
+      }))
+    );
+
+    const response = await app.inject({
+      method: "GET",
+      url: "/api/radar/oi-anomalies"
+    });
+
+    expect(response.statusCode).toBe(200);
+    const payload = response.json();
+    expect(payload.status).toBe("degraded");
+    expect(payload.items).toEqual([]);
   });
 
   it("returns guarded AI analysis for a candidate", async () => {
