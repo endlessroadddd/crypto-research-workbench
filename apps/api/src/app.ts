@@ -3,7 +3,7 @@ import cors from "@fastify/cors";
 import { analyzeCandidateWithAssistant } from "@research/assistant";
 import { buildHistoricalSnapshotReplay, buildLiveEventReplay } from "@research/replay";
 import { parseManualReviewFeedback } from "@research/review";
-import { createDb, loadCandidateDetail, recomputeWorkspace, type WorkspaceSnapshot } from "./service";
+import { createDb, loadCandidateDetail, recomputeWorkspace, type WorkspaceSnapshot } from "./service.js";
 
 interface Subscriber {
   id: number;

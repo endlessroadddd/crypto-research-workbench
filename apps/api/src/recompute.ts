@@ -1,4 +1,4 @@
-import { createDb, recomputeWorkspace } from "./service";
+import { createDb, recomputeWorkspace } from "./service.js";
 
 const db = createDb();
 const result = recomputeWorkspace(db);

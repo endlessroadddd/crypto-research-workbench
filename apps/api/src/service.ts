@@ -10,7 +10,7 @@ import {
   type StorageDatabase,
   writeWindowSnapshot
 } from "@research/storage";
-import { candidateCatalog } from "./catalog";
+import { candidateCatalog } from "./catalog.js";
 
 export interface WorkspaceSnapshot {
   generatedAt: string;
