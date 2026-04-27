@@ -30,12 +30,24 @@ export const buildApp = async () => {
 
   app.get("/api/candidates", async () => snapshot.candidates);
 
+  app.get("/api/reports", async () => snapshot.reportSummary);
+
   app.get<{ Params: { symbol: string } }>("/api/candidates/:symbol", async (request, reply) => {
     const detail = loadCandidateDetail(db, request.params.symbol);
     if (!detail) {
       return reply.code(404).send({ message: "Candidate not found" });
     }
     return detail;
+  });
+
+  app.get<{ Params: { symbol: string } }>("/api/candidates/:symbol/report", async (request, reply) => {
+    const symbol = request.params.symbol.toUpperCase();
+    const report = snapshot.reports.find((item) => item.symbol.toUpperCase() === symbol);
+    if (!report) {
+      return reply.code(404).send({ message: "Report not found" });
+    }
+
+    return report;
   });
 
   app.get<{ Params: { symbol: string } }>("/api/candidates/:symbol/replay", async (request, reply) => {

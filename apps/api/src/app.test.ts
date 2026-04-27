@@ -24,6 +24,19 @@ describe("api app", () => {
     expect(payload.length).toBeGreaterThan(0);
   });
 
+  it("returns beginner reports", async () => {
+    const response = await app.inject({
+      method: "GET",
+      url: "/api/reports"
+    });
+
+    expect(response.statusCode).toBe(200);
+    const payload = response.json();
+    expect(payload.headline).toContain("今日结论");
+    expect(Array.isArray(payload.reports)).toBe(true);
+    expect(payload.reports[0]).toHaveProperty("recommendation");
+  });
+
   it("returns guarded AI analysis for a candidate", async () => {
     const response = await app.inject({
       method: "POST",

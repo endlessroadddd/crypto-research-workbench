@@ -1,6 +1,14 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
-import { evaluateCandidate, type Candidate, type SourceCoverageItem } from "@research/core";
+import {
+  buildBeginnerReportSummary,
+  buildBeginnerTradeReport,
+  evaluateCandidate,
+  type BeginnerReportSummary,
+  type BeginnerTradeReport,
+  type Candidate,
+  type SourceCoverageItem
+} from "@research/core";
 import { loadAdapterRuntimes } from "@research/adapters";
 import { buildCalibrationReport, buildManualReviewChecklist } from "@research/review";
 import {
@@ -16,6 +24,8 @@ export interface WorkspaceSnapshot {
   generatedAt: string;
   sourceCoverage: SourceCoverageItem[];
   candidates: Candidate[];
+  reports: BeginnerTradeReport[];
+  reportSummary: BeginnerReportSummary;
   reviewReport: ReturnType<typeof buildCalibrationReport>;
 }
 
@@ -101,14 +111,20 @@ export const recomputeWorkspace = (db: StorageDatabase): WorkspaceSnapshot => {
   writeFileSync(snapshotFile, JSON.stringify(candidates, null, 2), "utf8");
   writeFileSync(calibrationFile, JSON.stringify(reviewReport, null, 2), "utf8");
 
+  const generatedAt = new Date().toISOString();
+  const reports = candidates.map((candidate) => buildBeginnerTradeReport(candidate, sourceCoverage));
+  const reportSummary = buildBeginnerReportSummary(candidates, sourceCoverage, generatedAt);
+
   return {
-    generatedAt: new Date().toISOString(),
+    generatedAt,
     sourceCoverage,
     candidates: candidates.map((candidate) => ({
       ...candidate,
       decisionReason: candidate.decisionReason,
       manualReviewRequired: true
     })),
+    reports,
+    reportSummary,
     reviewReport
   };
 };

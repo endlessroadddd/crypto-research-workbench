@@ -1,5 +1,7 @@
 import type {
   Candidate,
+  BeginnerReportSummary,
+  BeginnerTradeReport,
   ManualReviewChecklist,
   ManualReviewFeedback,
   SourceCoverageItem
@@ -76,6 +78,16 @@ export const fetchSourceCoverage = async (): Promise<SourceCoverageItem[]> => {
 
 export const fetchCandidates = async (): Promise<Candidate[]> => {
   return requestJson<Candidate[]>("/api/candidates");
+};
+
+export const fetchBeginnerReports = async (): Promise<BeginnerReportSummary> => {
+  return requestJson<BeginnerReportSummary>("/api/reports");
+};
+
+export const fetchCandidateReport = async (
+  symbol: string
+): Promise<BeginnerTradeReport> => {
+  return requestJson<BeginnerTradeReport>(`/api/candidates/${symbol}/report`);
 };
 
 export const fetchCandidateDetail = async (
