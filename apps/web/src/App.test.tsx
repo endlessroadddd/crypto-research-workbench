@@ -7,11 +7,13 @@ const apiMocks = vi.hoisted(() => ({
   fetchBeginnerReports: vi.fn(),
   fetchSourceCoverage: vi.fn(),
   fetchCandidateDetail: vi.fn(),
-  fetchRadarMovers: vi.fn()
+  fetchRadarMovers: vi.fn(),
+  fetchOIAnomalies: vi.fn()
 }));
 
 vi.mock("./api", () => ({
   fetchBeginnerReports: apiMocks.fetchBeginnerReports,
+  fetchOIAnomalies: apiMocks.fetchOIAnomalies,
   fetchRadarMovers: apiMocks.fetchRadarMovers,
   fetchSourceCoverage: apiMocks.fetchSourceCoverage,
   fetchCandidates: vi.fn(async () => []),
@@ -78,6 +80,48 @@ const moversPayload = {
   ]
 };
 
+const oiAnomaliesPayload = {
+  generatedAt: "2026-04-27T10:01:00.000Z",
+  source: "binance",
+  marketType: "USDT-M Futures",
+  period: "15m",
+  status: "healthy",
+  items: [
+    {
+      rank: 1,
+      symbol: "OIUPUSDT",
+      baseAsset: "OIUP",
+      lastPrice: 0.4567,
+      priceChangePercent: 3.21,
+      quoteVolume: 12_300_000,
+      quoteVolumeText: "$12.30M",
+      openInterestNow: 1_180_000,
+      openInterestPrev: 1_000_000,
+      openInterestValueNow: 1_180_000,
+      openInterestValuePrev: 1_000_000,
+      openInterestChangePercent: 18.5,
+      divergenceScore: 8.4,
+      severity: "high",
+      reason: "OI 出现明显变化，建议关注合约资金流向。"
+    },
+    {
+      rank: 2,
+      symbol: "OIXUSDT",
+      baseAsset: "OIX",
+      lastPrice: 2.345,
+      priceChangePercent: -1.1,
+      quoteVolume: 22_000_000,
+      quoteVolumeText: "$22.00M",
+      openInterestNow: 1_400_000,
+      openInterestPrev: 1_000_000,
+      openInterestChangePercent: 40,
+      divergenceScore: 12.4,
+      severity: "extreme",
+      reason: "OI 大幅变化但价格变化相对有限，存在资金异动或多空博弈。"
+    }
+  ]
+};
+
 const renderApp = () => {
   const client = new QueryClient({
     defaultOptions: {
@@ -104,6 +148,7 @@ const renderApp = () => {
 
 beforeEach(() => {
   apiMocks.fetchBeginnerReports.mockResolvedValue(reportsPayload);
+  apiMocks.fetchOIAnomalies.mockResolvedValue(oiAnomaliesPayload);
   apiMocks.fetchRadarMovers.mockResolvedValue(moversPayload);
   apiMocks.fetchSourceCoverage.mockResolvedValue([]);
   apiMocks.fetchCandidateDetail.mockResolvedValue(null);
@@ -115,6 +160,21 @@ afterEach(() => {
 });
 
 describe("App", () => {
+  it("renders OI anomaly board with warning copy and anomaly metrics", async () => {
+    const { client, view } = renderApp();
+
+    expect(await screen.findByText("OI 异动榜")).toBeTruthy();
+    expect(screen.getByText("OI 异动用于发现合约持仓变化，不等于开单建议。")).toBeTruthy();
+    expect(await screen.findByText("OIUP")).toBeTruthy();
+    expect(screen.getByText("+18.50%")).toBeTruthy();
+    expect(screen.getByText("8.4")).toBeTruthy();
+    expect(screen.getByText("明显异动")).toBeTruthy();
+    expect(screen.getByText("极端异动")).toBeTruthy();
+
+    client.clear();
+    view.unmount();
+  });
+
   it("renders movers board with gainers by default and switches to losers", async () => {
     const { client, view } = renderApp();
 
@@ -147,6 +207,17 @@ describe("App", () => {
     view.unmount();
   });
 
+  it("shows OI request error state without blank screen", async () => {
+    apiMocks.fetchOIAnomalies.mockRejectedValueOnce(new Error("network down"));
+    const { client, view } = renderApp();
+
+    expect(await screen.findByText("OI 数据暂时不可用，请稍后刷新。")).toBeTruthy();
+    expect(screen.getByText("合约妖币异动雷达")).toBeTruthy();
+
+    client.clear();
+    view.unmount();
+  });
+
   it("shows degraded source state before empty list", async () => {
     apiMocks.fetchRadarMovers.mockResolvedValueOnce({
       ...moversPayload,
@@ -167,6 +238,34 @@ describe("App", () => {
     view.unmount();
   });
 
+  it("shows OI degraded state before empty list", async () => {
+    apiMocks.fetchOIAnomalies.mockResolvedValueOnce({
+      ...oiAnomaliesPayload,
+      status: "degraded",
+      items: []
+    });
+    const { client, view } = renderApp();
+
+    expect(await screen.findByText("Binance OI 数据暂时不可用，请稍后刷新。")).toBeTruthy();
+    expect(screen.queryByText("暂无 OI 异动")).toBeNull();
+
+    client.clear();
+    view.unmount();
+  });
+
+  it("shows OI empty state when the healthy response has no items", async () => {
+    apiMocks.fetchOIAnomalies.mockResolvedValueOnce({
+      ...oiAnomaliesPayload,
+      items: []
+    });
+    const { client, view } = renderApp();
+
+    expect(await screen.findByText("暂无 OI 异动")).toBeTruthy();
+
+    client.clear();
+    view.unmount();
+  });
+
   it("logs selected symbol when clicking a mover row", async () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
     const { client, view } = renderApp();
@@ -178,6 +277,23 @@ describe("App", () => {
 
     await waitFor(() => {
       expect(logSpy).toHaveBeenCalledWith("PUMPUSDT");
+    });
+
+    client.clear();
+    view.unmount();
+  });
+
+  it("logs selected symbol when clicking an OI anomaly row", async () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    const { client, view } = renderApp();
+
+    const asset = await screen.findByText("OIUP");
+    const row = asset.closest("button");
+    expect(row).toBeTruthy();
+    fireEvent.click(row as HTMLButtonElement);
+
+    await waitFor(() => {
+      expect(logSpy).toHaveBeenCalledWith("OIUPUSDT");
     });
 
     client.clear();

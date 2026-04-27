@@ -13,6 +13,7 @@ import {
   type CandidateDetailResponse
 } from "./api";
 import { MoversBoard } from "./components/radar/MoversBoard";
+import { OIAnomalyBoard } from "./components/radar/OIAnomalyBoard";
 import "./styles.css";
 
 type RecommendationFilter = "all" | BeginnerTradeReport["recommendation"];
@@ -615,6 +616,13 @@ export default function App() {
       </header>
 
       <MoversBoard
+        onSelectSymbol={(symbol) => {
+          // 第一版只暴露选择事件，后续再接报告联动。
+          console.log(symbol);
+        }}
+      />
+
+      <OIAnomalyBoard
         onSelectSymbol={(symbol) => {
           // 第一版只暴露选择事件，后续再接报告联动。
           console.log(symbol);

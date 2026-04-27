@@ -96,6 +96,33 @@ export interface RadarMoversResponse {
   losers: MoverItem[];
 }
 
+export interface OIAnomalyItem {
+  rank: number;
+  symbol: string;
+  baseAsset: string;
+  lastPrice: number;
+  priceChangePercent: number;
+  quoteVolume: number;
+  quoteVolumeText: string;
+  openInterestNow: number;
+  openInterestPrev?: number;
+  openInterestValueNow?: number;
+  openInterestValuePrev?: number;
+  openInterestChangePercent: number;
+  divergenceScore: number;
+  severity: "normal" | "high" | "extreme";
+  reason: string;
+}
+
+export interface OIAnomaliesResponse {
+  generatedAt: string;
+  source: "binance";
+  marketType: "USDT-M Futures";
+  period: "15m";
+  status: "healthy" | "degraded";
+  items: OIAnomalyItem[];
+}
+
 export const fetchSourceCoverage = async (): Promise<SourceCoverageItem[]> => {
   return requestJson<SourceCoverageItem[]>("/api/source-coverage");
 };
@@ -110,6 +137,10 @@ export const fetchBeginnerReports = async (): Promise<BeginnerReportSummary> => 
 
 export const fetchRadarMovers = async (): Promise<RadarMoversResponse> => {
   return requestJson<RadarMoversResponse>("/api/radar/movers");
+};
+
+export const fetchOIAnomalies = async (): Promise<OIAnomaliesResponse> => {
+  return requestJson<OIAnomaliesResponse>("/api/radar/oi-anomalies");
 };
 
 export const fetchCandidateReport = async (
