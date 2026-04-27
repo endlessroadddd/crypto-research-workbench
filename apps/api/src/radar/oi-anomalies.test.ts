@@ -148,7 +148,9 @@ describe("oi anomaly endpoint data flow", () => {
         return {
           ok: false,
           status: 429,
-          json: async () => ({})
+          json: async () => ({}),
+          headers: { get: () => null },
+          text: async () => ""
         };
       }
 
@@ -164,7 +166,9 @@ describe("oi anomaly endpoint data flow", () => {
             timestamp: 2000,
             sumOpenInterestValue: "1300"
           }
-        ]
+        ],
+        headers: { get: () => null },
+        text: async () => ""
       };
     });
 
@@ -188,7 +192,9 @@ describe("oi anomaly endpoint data flow", () => {
     const fetchImpl = vi.fn(async () => ({
       ok: false,
       status: 418,
-      json: async () => ({})
+      json: async () => ({}),
+      headers: { get: () => null },
+      text: async () => ""
     }));
 
     const payload = await getBinanceFuturesOIAnomalies({

@@ -9,6 +9,19 @@ export interface MoverItem {
   sparkline: number[];
 }
 
+export interface UpstreamDiagnostic {
+  upstreamUrl: string;
+  upstreamHttpStatus: number | null;
+  upstreamContentType: string | null;
+  upstreamBodyPreview: string | null;
+  errorName: string | null;
+  errorMessage: string | null;
+  isTimeout: boolean;
+  isJsonParseError: boolean;
+  isNetworkError: boolean;
+  railwayRegion: string | null;
+}
+
 export interface MoversResponse {
   generatedAt: string;
   source: "binance";
@@ -17,6 +30,7 @@ export interface MoversResponse {
   error?: {
     code: "BINANCE_UPSTREAM_ERROR";
     message: string;
+    diagnostic?: UpstreamDiagnostic;
   };
   gainers: MoverItem[];
   losers: MoverItem[];
@@ -32,7 +46,11 @@ interface BinanceTicker24h {
 interface FetchLikeResponse {
   ok: boolean;
   status: number;
+  headers: {
+    get(name: string): string | null;
+  };
   json: () => Promise<unknown>;
+  text: () => Promise<string>;
 }
 
 type FetchLike = (input: string, init?: { signal?: AbortSignal }) => Promise<FetchLikeResponse>;
@@ -69,14 +87,15 @@ const toFiniteNumber = (value: unknown): number | null => {
   return Number.isFinite(numeric) ? numeric : null;
 };
 
-const degradedResponse = (): MoversResponse => ({
+const degradedResponse = (diagnostic?: UpstreamDiagnostic): MoversResponse => ({
   generatedAt: new Date().toISOString(),
   source: "binance",
   marketType: "USDT-M Futures",
   status: "degraded",
   error: {
     code: "BINANCE_UPSTREAM_ERROR",
-    message: "Binance public market data is temporarily unavailable."
+    message: "Binance public market data is temporarily unavailable.",
+    ...(diagnostic ? { diagnostic } : {})
   },
   gainers: [],
   losers: []
@@ -183,7 +202,16 @@ export const getBinanceFuturesMovers = async (
     );
 
     if (!response.ok) {
-      throw new Error(`Binance upstream responded with HTTP ${response.status}`);
+      let bodyPreview = null;
+      let contentType: string | null = null;
+      try {
+        contentType = response.headers.get("content-type");
+        const text = await response.text();
+        bodyPreview = text.slice(0, 200);
+      } catch {
+        // ignore
+      }
+      throw new Error(`Binance upstream responded with HTTP ${response.status} (${contentType}) body: ${bodyPreview}`);
     }
 
     const payload = buildMoversResponse(await response.json());
@@ -192,8 +220,26 @@ export const getBinanceFuturesMovers = async (
       payload
     };
     return payload;
-  } catch {
-    const payload = degradedResponse();
+  } catch (err: unknown) {
+    const isTimeout = err instanceof DOMException && err.name === "AbortError";
+    const isNetworkError = err instanceof TypeError && err.message.includes("fetch");
+    const isJsonParseError = err instanceof SyntaxError;
+    const railwayRegion = process.env.RAILWAY_REGION ?? null;
+
+    const diagnostic: UpstreamDiagnostic = {
+      upstreamUrl: BINANCE_FUTURES_TICKER_24H,
+      upstreamHttpStatus: null,
+      upstreamContentType: null,
+      upstreamBodyPreview: null,
+      errorName: err instanceof Error ? err.name : null,
+      errorMessage: err instanceof Error ? err.message : String(err),
+      isTimeout,
+      isNetworkError,
+      isJsonParseError,
+      railwayRegion
+    };
+
+    const payload = degradedResponse(diagnostic);
     cachedResponse = {
       expiresAt: now + CACHE_TTL_MS,
       payload

@@ -38,7 +38,11 @@ interface BinanceOpenInterestHistItem {
 interface FetchLikeResponse {
   ok: boolean;
   status: number;
+  headers: {
+    get(name: string): string | null;
+  };
   json: () => Promise<unknown>;
+  text: () => Promise<string>;
 }
 
 type FetchLike = (input: string, init?: { signal?: AbortSignal }) => Promise<FetchLikeResponse>;

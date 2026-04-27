@@ -38,6 +38,53 @@ export const buildApp = async () => {
 
   app.get("/api/radar/oi-anomalies", async () => getBinanceFuturesOIAnomalies());
 
+  app.get("/api/debug/binance-fapi", async () => {
+    const url = "https://fapi.binance.com/fapi/v1/ticker/24hr?symbol=BTCUSDT";
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10_000);
+    try {
+      const response = await globalThis.fetch(url, { signal: controller.signal });
+      clearTimeout(timer);
+      const contentType = response.headers.get("content-type");
+      const text = await response.text();
+      let parsedJson: unknown = null;
+      let jsonParseError: string | null = null;
+      try {
+        parsedJson = JSON.parse(text);
+      } catch (e) {
+        jsonParseError = e instanceof Error ? e.message : String(e);
+      }
+      return {
+        ok: response.ok,
+        status: response.status,
+        contentType,
+        bodyPreview: text.slice(0, 300),
+        parsedJson: parsedJson ? { symbol: (parsedJson as { symbol?: unknown }).symbol, lastPrice: (parsedJson as { lastPrice?: unknown }).lastPrice, priceChangePercent: (parsedJson as { priceChangePercent?: unknown }).priceChangePercent } : null,
+        jsonParseError,
+        railwayRegion: process.env.RAILWAY_REGION ?? null
+      };
+    } catch (err) {
+      clearTimeout(timer);
+      const isTimeout = err instanceof DOMException && err.name === "AbortError";
+      const isNetworkError = err instanceof TypeError && err.message.includes("fetch");
+      return {
+        ok: false,
+        status: null,
+        contentType: null,
+        bodyPreview: null,
+        parsedJson: null,
+        jsonParseError: null,
+        error: {
+          name: err instanceof Error ? err.name : null,
+          message: err instanceof Error ? err.message : String(err),
+          isTimeout,
+          isNetworkError
+        },
+        railwayRegion: process.env.RAILWAY_REGION ?? null
+      };
+    }
+  });
+
   app.get<{ Params: { symbol: string } }>("/api/candidates/:symbol", async (request, reply) => {
     const detail = loadCandidateDetail(db, request.params.symbol);
     if (!detail) {

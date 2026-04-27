@@ -76,7 +76,9 @@ describe("binance futures movers", () => {
     const fetchImpl = vi.fn(async () => ({
       ok: false,
       status: 429,
-      json: async () => ({})
+      json: async () => ({}),
+      headers: { get: () => null },
+      text: async () => ""
     }));
 
     const payload = await getBinanceFuturesMovers({
@@ -95,7 +97,9 @@ describe("binance futures movers", () => {
     const fetchImpl = vi.fn(async () => ({
       ok: true,
       status: 200,
-      json: async () => ({ message: "unexpected" })
+      json: async () => ({ message: "unexpected" }),
+      headers: { get: () => null },
+      text: async () => ""
     }));
 
     const payload = await getBinanceFuturesMovers({
