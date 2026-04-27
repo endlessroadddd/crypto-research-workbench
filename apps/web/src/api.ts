@@ -72,6 +72,30 @@ export interface AiAdvisorResponse {
   rawModelOutput?: string;
 }
 
+export interface MoverItem {
+  rank: number;
+  symbol: string;
+  baseAsset: string;
+  lastPrice: number;
+  priceChangePercent: number;
+  quoteVolume: number;
+  quoteVolumeText: string;
+  sparkline: number[];
+}
+
+export interface RadarMoversResponse {
+  generatedAt: string;
+  source: "binance";
+  marketType: "USDT-M Futures";
+  status?: "healthy" | "degraded";
+  error?: {
+    code: string;
+    message: string;
+  };
+  gainers: MoverItem[];
+  losers: MoverItem[];
+}
+
 export const fetchSourceCoverage = async (): Promise<SourceCoverageItem[]> => {
   return requestJson<SourceCoverageItem[]>("/api/source-coverage");
 };
@@ -82,6 +106,10 @@ export const fetchCandidates = async (): Promise<Candidate[]> => {
 
 export const fetchBeginnerReports = async (): Promise<BeginnerReportSummary> => {
   return requestJson<BeginnerReportSummary>("/api/reports");
+};
+
+export const fetchRadarMovers = async (): Promise<RadarMoversResponse> => {
+  return requestJson<RadarMoversResponse>("/api/radar/movers");
 };
 
 export const fetchCandidateReport = async (

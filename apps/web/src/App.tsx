@@ -12,6 +12,7 @@ import {
   fetchSourceCoverage,
   type CandidateDetailResponse
 } from "./api";
+import { MoversBoard } from "./components/radar/MoversBoard";
 import "./styles.css";
 
 type RecommendationFilter = "all" | BeginnerTradeReport["recommendation"];
@@ -575,7 +576,9 @@ export default function App() {
 
   useEffect(() => {
     if (filteredReports.length === 0) {
-      setSelectedSymbol(undefined);
+      if (selectedSymbol) {
+        setSelectedSymbol(undefined);
+      }
       return;
     }
 
@@ -603,6 +606,21 @@ export default function App() {
 
   return (
     <div className="app-shell">
+      <header className="radar-page-header">
+        <p className="eyebrow">Binance 实时数据 · USDT 合约 · 过去 24 小时</p>
+        <h1>合约妖币异动雷达</h1>
+        <p>
+          先看全市场 24h 涨跌幅异动，再往下看原有开单分析报告。当前页面不接钱包、不自动下单。
+        </p>
+      </header>
+
+      <MoversBoard
+        onSelectSymbol={(symbol) => {
+          // 第一版只暴露选择事件，后续再接报告联动。
+          console.log(symbol);
+        }}
+      />
+
       <TodayConclusion
         headline={reportsQuery.data?.headline}
         reason={reportsQuery.data?.reason}
