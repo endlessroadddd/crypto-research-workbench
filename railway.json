@@ -2,7 +2,7 @@
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
     "builder": "RAILPACK",
-    "buildCommand": "pnpm --filter @research/api build && node -e \"const fs=require('fs');const d='apps/api/dist';const fix=f=>{let c=fs.readFileSync(f,'utf8');const r=c.match(/(?:from|export)\\s+[\\\"'](?:\\.\\.?\\/[^\\\"']+)[\\\"'](?!\\.js)/g)||[];r.forEach(m=>{const p=m.match(/(?:from|export)\\s+[\\\"']([^\\\"']+)[\\\"']/)[1];c=c.replace(m,m.replace(p,p+'.js'))});if(c!==fs.readFileSync(f,'utf8')){fs.writeFileSync(f,c);console.log('Fixed:',f)}};const walk=d=>{fs.readdirSync(d).forEach(n=>{const p=d+'/'+n;fs.statSync(p).isDirectory()?walk(p):n.endsWith('.js')&&fix(p)})};walk(d);\""
+"buildCommand": "pnpm --filter @research/api build && node scripts/fix-esm.mjs"
   },
   "deploy": {
     "startCommand": "cd apps/api/dist/apps/api/src && node index.js",
