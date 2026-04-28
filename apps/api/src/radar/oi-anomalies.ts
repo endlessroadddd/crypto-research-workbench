@@ -35,17 +35,7 @@ interface BinanceOpenInterestHistItem {
   timestamp?: unknown;
 }
 
-interface FetchLikeResponse {
-  ok: boolean;
-  status: number;
-  headers: {
-    get(name: string): string | null;
-  };
-  json: () => Promise<unknown>;
-  text: () => Promise<string>;
-}
-
-type FetchLike = (input: string, init?: { signal?: AbortSignal }) => Promise<FetchLikeResponse>;
+import { buildProxyAwareFetch, type FetchLike, type FetchLikeResponse } from "./utils.js";
 type MoversProvider = (options?: { now?: number; fetchImpl?: FetchLike; timeoutMs?: number }) => Promise<MoversResponse>;
 
 const OPEN_INTEREST_HIST_ENDPOINT = "https://fapi.binance.com/futures/data/openInterestHist";
@@ -304,6 +294,7 @@ export const getBinanceFuturesOIAnomalies = async (
     fetchImpl?: FetchLike;
     timeoutMs?: number;
     moversProvider?: MoversProvider;
+    proxyUrl?: string;
   } = {}
 ): Promise<OIAnomaliesResponse> => {
   const now = options.now ?? Date.now();
@@ -311,7 +302,7 @@ export const getBinanceFuturesOIAnomalies = async (
     return cachedResponse.payload;
   }
 
-  const fetchImpl = options.fetchImpl ?? (globalThis.fetch as FetchLike | undefined);
+  let fetchImpl = options.fetchImpl ?? globalThis.fetch;
   if (!fetchImpl) {
     const payload = degradedResponse();
     cachedResponse = {
@@ -321,11 +312,15 @@ export const getBinanceFuturesOIAnomalies = async (
     return payload;
   }
 
+  const proxyUrl = options.proxyUrl ?? process.env.BINANCE_PROXY_URL ?? null;
+  fetchImpl = await buildProxyAwareFetch(proxyUrl, fetchImpl);
+
   const moversProvider = options.moversProvider ?? getBinanceFuturesMovers;
   const movers = await moversProvider({
     now,
     fetchImpl,
-    timeoutMs: options.timeoutMs
+    timeoutMs: options.timeoutMs,
+    proxyUrl: proxyUrl ?? undefined
   });
   const candidates = movers.status === "degraded" ? [] : getCandidateMovers(movers);
   if (candidates.length === 0) {

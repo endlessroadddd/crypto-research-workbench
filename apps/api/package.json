@@ -19,6 +19,7 @@
     "@research/review": "workspace:*",
     "@research/storage": "workspace:*",
     "fastify": "^5.3.3",
+    "undici": "^8.1.0",
     "zod": "^3.24.4"
   },
   "devDependencies": {

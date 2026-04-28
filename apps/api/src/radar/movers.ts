@@ -43,17 +43,7 @@ interface BinanceTicker24h {
   quoteVolume?: unknown;
 }
 
-interface FetchLikeResponse {
-  ok: boolean;
-  status: number;
-  headers: {
-    get(name: string): string | null;
-  };
-  json: () => Promise<unknown>;
-  text: () => Promise<string>;
-}
-
-type FetchLike = (input: string, init?: { signal?: AbortSignal }) => Promise<FetchLikeResponse>;
+import { buildProxyAwareFetch, type FetchLike, type FetchLikeResponse } from "./utils.js";
 
 const BINANCE_FUTURES_TICKER_24H = "https://fapi.binance.com/fapi/v1/ticker/24hr";
 const CACHE_TTL_MS = 60_000;
@@ -177,6 +167,7 @@ export const getBinanceFuturesMovers = async (
     now?: number;
     fetchImpl?: FetchLike;
     timeoutMs?: number;
+    proxyUrl?: string;
   } = {}
 ): Promise<MoversResponse> => {
   const now = options.now ?? Date.now();
@@ -184,7 +175,7 @@ export const getBinanceFuturesMovers = async (
     return cachedResponse.payload;
   }
 
-  const fetchImpl = options.fetchImpl ?? (globalThis.fetch as FetchLike | undefined);
+  let fetchImpl = options.fetchImpl ?? globalThis.fetch;
   if (!fetchImpl) {
     const payload = degradedResponse();
     cachedResponse = {
@@ -193,6 +184,9 @@ export const getBinanceFuturesMovers = async (
     };
     return payload;
   }
+
+  const proxyUrl = options.proxyUrl ?? process.env.BINANCE_PROXY_URL ?? null;
+  fetchImpl = await buildProxyAwareFetch(proxyUrl, fetchImpl);
 
   try {
     const response = await fetchWithTimeout(
